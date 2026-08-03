@@ -1,0 +1,25 @@
+# Secrets — real API keys, DB credentials, JWT secret live in these
+.env
+.env.local
+
+# Python
+venv/
+__pycache__/
+*.pyc
+
+# Backend runtime output — not source, don't commit
+studio-app/backend/logs/
+studio-app/backend/storage/
+
+# Node / frontend
+node_modules/
+dist/
+
+# Claude Code local session config (permissions, etc. — personal, not shared)
+.claude/
+
+# Personal/unrelated file, not project content
+studio-app/paperstreet.md
+
+# OS / editor cruft
+.DS_Store
