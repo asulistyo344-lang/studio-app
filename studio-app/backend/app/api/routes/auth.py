@@ -54,7 +54,12 @@ def _set_session_cookie(response: Response, user_id: int) -> None:
         value=token,
         httponly=True,
         secure=settings.environment == "production",
-        samesite="lax",
+        # Lax works fine in dev (localhost:5173 -> localhost:8006 is same-site,
+        # only the port differs) but breaks silently once frontend/backend are
+        # on different registrable domains in production (e.g. Vercel's own
+        # domain + a VPS domain) — cross-site fetch() calls never send a Lax
+        # cookie. None requires Secure, which is already conditional above.
+        samesite="none" if settings.environment == "production" else "lax",
         max_age=COOKIE_MAX_AGE_SECONDS,
         path="/",
     )
