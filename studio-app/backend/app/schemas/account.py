@@ -23,7 +23,3 @@ class AccountOut(BaseModel):
     credits_balance: int
     created_at: datetime
     subscription: Optional[SubscriptionOut] = None
-
-
-class UpgradeRequest(BaseModel):
-    plan: SubscriptionPlan

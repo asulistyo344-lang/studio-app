@@ -107,10 +107,6 @@ export function getAccount() {
   return request("/me/account");
 }
 
-export function upgradeSubscription(plan) {
-  return request("/me/subscription/upgrade", { method: "POST", body: JSON.stringify({ plan }) });
-}
-
 export function listProjects() {
   return request("/projects");
 }

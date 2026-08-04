@@ -6,7 +6,6 @@ import { AuthProvider } from "./AuthContext.jsx";
 import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
 import Account from "./pages/Account.jsx";
-import Billing from "./pages/Billing.jsx";
 import Admin from "./pages/Admin.jsx";
 import VerifyEmail from "./pages/VerifyEmail.jsx";
 import ForgotPassword from "./pages/ForgotPassword.jsx";
@@ -30,14 +29,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             element={
               <ProtectedRoute>
                 <Account />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/billing"
-            element={
-              <ProtectedRoute>
-                <Billing />
               </ProtectedRoute>
             }
           />
