@@ -34,7 +34,7 @@ class User(Base):
         server_default=UserStatus.active.value,
         nullable=False,
     )
-    credits_balance: Mapped[int] = mapped_column(Integer, default=100, nullable=False)
+    credits_balance: Mapped[int] = mapped_column(Integer, default=30, nullable=False)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now(), nullable=False
     )

@@ -11,7 +11,7 @@ function SectionLabel({ children }) {
 }
 
 const PLANS = [
-  { id: "free", label: "Free", credits: 100, blurb: "Starting balance for every new account." },
+  { id: "free", label: "Free", credits: 30, blurb: "Starting balance for every new account." },
   { id: "pro", label: "Pro", credits: 500, blurb: "For regular generation workloads." },
   { id: "enterprise", label: "Enterprise", credits: 2000, blurb: "High-volume usage." },
 ];

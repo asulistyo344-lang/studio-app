@@ -12,7 +12,7 @@ from app.services.notifications import create_notification
 # current balance) rather than a hard reset, so activating/reactivating a
 # plan never destroys credits a user already paid for or earned.
 PLAN_CREDITS: dict[SubscriptionPlan, int] = {
-    SubscriptionPlan.free: 100,
+    SubscriptionPlan.free: 30,
     SubscriptionPlan.pro: 500,
     SubscriptionPlan.enterprise: 2000,
 }
