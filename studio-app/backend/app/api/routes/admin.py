@@ -101,16 +101,22 @@ async def update_user(
         user.credits_balance = payload.credits_balance
         changes.append(f"credits={payload.credits_balance}")
 
+    result = await db.execute(select(Subscription).where(Subscription.user_id == user.id))
+    subscription = result.scalar_one_or_none()
+
     # Plan changes go through the centralized Subscription Service (not a
-    # direct mutation here) — see services/subscription.py for why.
+    # direct mutation here) — see services/subscription.py for why. Only
+    # activate when the plan is actually changing: the frontend always
+    # includes the user's *current* plan in every save payload (even a
+    # credits-only edit), and activate_plan() grants a full credit top-up
+    # unconditionally — routing every save through it regardless of whether
+    # the plan changed silently added bonus credits on top of whatever an
+    # admin explicitly typed into the credits field.
     plan_activated = False
-    if payload.plan is not None:
+    if payload.plan is not None and (subscription is None or subscription.plan != payload.plan):
         subscription = await activate_plan(db, user, payload.plan, source="admin")
         changes.append(f"plan={payload.plan.value}")
         plan_activated = True
-    else:
-        result = await db.execute(select(Subscription).where(Subscription.user_id == user.id))
-        subscription = result.scalar_one_or_none()
 
     if changes:
         db.add(AuditLog(user_id=admin.id, action=f"admin_updated_user:{user.id}:{','.join(changes)}"))
