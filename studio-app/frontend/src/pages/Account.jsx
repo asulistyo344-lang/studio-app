@@ -90,10 +90,12 @@ export default function Account() {
                 </dd>
               </div>
             </dl>
-            <p className="mt-4 text-xs text-neutral-400">
-              Plan upgrades are managed by an admin for now — contact one to top up credits or
-              move to Pro.
-            </p>
+            <Link
+              to="/billing"
+              className="mt-4 inline-block text-xs font-medium text-accent hover:underline"
+            >
+              View plans & billing →
+            </Link>
           </section>
         )}
 
