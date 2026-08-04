@@ -44,6 +44,8 @@ class Generate3DResponse(BaseModel):
 
 
 class AnimateRequest(BaseModel):
+    model_config = ConfigDict(protected_namespaces=())
+
     model_url: str
     motion_type: int = Field(ge=1, le=48)
 
