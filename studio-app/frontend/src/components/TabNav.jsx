@@ -5,15 +5,17 @@ const TABS = [
   { id: "history", label: "History" },
 ];
 
-export default function TabNav({ active, onChange, historyCount }) {
+export default function TabNav({ active, onChange, historyCount, vertical = false }) {
   return (
-    <nav className="flex flex-wrap items-center gap-1">
+    <nav className={vertical ? "flex flex-col gap-1" : "flex flex-wrap items-center gap-1"}>
       {TABS.map((tab) => (
         <button
           key={tab.id}
           type="button"
           onClick={() => onChange(tab.id)}
-          className={`flex items-center gap-1.5 rounded-full px-4 py-2 font-mono text-xs uppercase tracking-wider transition-colors ${
+          className={`flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider transition-colors ${
+            vertical ? "w-full justify-start rounded-md px-4 py-2.5" : "rounded-full px-4 py-2"
+          } ${
             active === tab.id
               ? "bg-accent/10 text-accent"
               : "text-neutral-500 hover:text-neutral-800"

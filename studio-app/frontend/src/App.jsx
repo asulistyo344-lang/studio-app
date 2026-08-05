@@ -85,6 +85,7 @@ export default function App() {
   const [animateError, setAnimateError] = useState("");
 
   const [historyJobs, setHistoryJobs] = useState([]);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const refreshHistory = () => {
     listJobs()
@@ -224,17 +225,18 @@ export default function App() {
   return (
     <div className="min-h-screen bg-neutral-50">
       <header className="sticky top-0 z-10 border-b border-neutral-200 bg-white/90 backdrop-blur">
-        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-6 py-3">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
           <div className="flex items-center gap-3">
             <img src={logo} alt="AnomVision" className="h-9 w-auto" />
             <span className="hidden rounded-full border border-neutral-200 px-3 py-1 font-mono text-[11px] uppercase tracking-wider text-neutral-500 sm:inline-block">
               Demo AI SaaS
             </span>
           </div>
-          <div className="flex items-center gap-4">
+
+          <div className="hidden items-center gap-4 md:flex">
             <TabNav active={activeTab} onChange={setActiveTab} historyCount={history.length} />
             <div className="flex items-center gap-2 border-l border-neutral-200 pl-4">
-              <span className="hidden font-mono text-xs text-neutral-400 sm:inline">{user?.email}</span>
+              <span className="hidden font-mono text-xs text-neutral-400 lg:inline">{user?.email}</span>
               <NotificationBell />
               {user?.role === "admin" && (
                 <Link
@@ -259,7 +261,71 @@ export default function App() {
               </button>
             </div>
           </div>
+
+          <div className="flex items-center gap-2 md:hidden">
+            <NotificationBell />
+            <button
+              type="button"
+              onClick={() => setMobileMenuOpen((prev) => !prev)}
+              aria-label="Toggle menu"
+              aria-expanded={mobileMenuOpen}
+              className="rounded-md border border-neutral-200 p-2 text-neutral-600 hover:border-accent hover:text-accent"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="h-5 w-5">
+                {mobileMenuOpen ? (
+                  <path d="M6 6l12 12M18 6l-12 12" />
+                ) : (
+                  <path d="M4 7h16M4 12h16M4 17h16" />
+                )}
+              </svg>
+            </button>
+          </div>
         </div>
+
+        {mobileMenuOpen && (
+          <div className="border-t border-neutral-200 bg-white px-4 py-3 md:hidden">
+            <TabNav
+              vertical
+              active={activeTab}
+              onChange={(tab) => {
+                setActiveTab(tab);
+                setMobileMenuOpen(false);
+              }}
+              historyCount={history.length}
+            />
+            <div className="mt-3 flex flex-col gap-2 border-t border-neutral-200 pt-3">
+              {user?.email && (
+                <span className="px-4 font-mono text-xs text-neutral-400">{user.email}</span>
+              )}
+              {user?.role === "admin" && (
+                <Link
+                  to="/admin"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="rounded-md border border-neutral-200 px-4 py-2.5 text-sm text-neutral-600 hover:border-accent hover:text-accent"
+                >
+                  Admin
+                </Link>
+              )}
+              <Link
+                to="/account"
+                onClick={() => setMobileMenuOpen(false)}
+                className="rounded-md border border-neutral-200 px-4 py-2.5 text-sm text-neutral-600 hover:border-accent hover:text-accent"
+              >
+                Account
+              </Link>
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  logout();
+                }}
+                className="rounded-md border border-neutral-200 px-4 py-2.5 text-left text-sm text-neutral-600 hover:border-accent hover:text-accent"
+              >
+                Log out
+              </button>
+            </div>
+          </div>
+        )}
       </header>
 
       <main className="mx-auto max-w-6xl space-y-8 px-6 py-12">

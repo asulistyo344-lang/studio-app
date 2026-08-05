@@ -67,7 +67,7 @@ export default function NotificationBell() {
       </button>
 
       {open && (
-        <div className="absolute right-0 z-20 mt-2 w-80 rounded-lg border border-neutral-200 bg-white p-2 shadow-lg">
+        <div className="absolute right-0 z-20 mt-2 w-[min(20rem,calc(100vw-2rem))] rounded-lg border border-neutral-200 bg-white p-2 shadow-lg">
           <div className="mb-2 flex items-center justify-between px-2">
             <span className="font-mono text-xs uppercase tracking-wider text-neutral-400">
               Notifications
