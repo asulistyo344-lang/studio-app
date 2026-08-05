@@ -114,7 +114,16 @@ async def login(payload: LoginRequest, response: Response, db: AsyncSession = De
 
 @router.post("/logout")
 async def logout(response: Response) -> dict:
-    response.delete_cookie(key=ACCESS_TOKEN_COOKIE_NAME, path="/")
+    # Must match _set_session_cookie's secure/samesite exactly — browsers
+    # refuse to let a non-Secure Set-Cookie clear an existing Secure cookie
+    # (Chrome's "Leave Secure Cookies Alone"), so a bare delete_cookie() call
+    # here silently no-ops in production and logout appears to do nothing.
+    response.delete_cookie(
+        key=ACCESS_TOKEN_COOKIE_NAME,
+        path="/",
+        secure=settings.environment == "production",
+        samesite="none" if settings.environment == "production" else "lax",
+    )
     return {"status": "ok"}
 
 
